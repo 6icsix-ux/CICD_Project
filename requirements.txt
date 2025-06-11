@@ -1,0 +1,6 @@
+django
+mysqlclient
+pymysql
+djangorestframework
+mysql-connector-python
+Pillow

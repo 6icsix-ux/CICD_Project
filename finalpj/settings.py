@@ -79,21 +79,32 @@ WSGI_APPLICATION = 'finalpj.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
+USE_DOCKER = os.getenv('USE_DOCKER', 'False').lower() == 'true'
+DB_HOST = os.getenv('DB_HOST', 'db' if USE_DOCKER else 'localhost')
+
+print("USE_DOCKER =", os.getenv('USE_DOCKER'))
+print("DB_HOST =", DB_HOST)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dbfinalapp',  # ชื่อฐานข้อมูล
-        'USER': 'root',        # ชื่อผู้ใช้งาน MySQL
-        'PASSWORD': '1234',  # รหัสผ่าน MySQL
-        'HOST': '127.0.0.1',    # Host
-        'PORT': '3306',
+        'NAME': os.getenv('DB_NAME', 'dbfinalapp'),
+        'USER': os.getenv('DB_USER', 'root'),
+        'PASSWORD': os.getenv('DB_PASSWORD', '1234'),
+        'HOST': DB_HOST,
+        'PORT': os.getenv('DB_PORT', '3306'),
         'OPTIONS': {
             'charset': 'utf8mb4',
             'init_command': "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci",
         },
-                        
     }
 }
+
+
+
+
+
 
 
 

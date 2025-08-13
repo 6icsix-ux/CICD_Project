@@ -1,6 +1,8 @@
-django
+Django>=4.0
 mysqlclient
 pymysql
 djangorestframework
 mysql-connector-python
 Pillow
+dotenv
+python-decouple

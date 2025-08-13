@@ -73,6 +73,22 @@ input {
     text-decoration: underline;
 }
 
+/* ข้อความลิงก์ด้านล่าง */
+.admin-register {
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+}
+
+.admin-register  a {
+    color: #4c45e5;
+    text-decoration: none;
+}
+
+.admin-register  a:hover {
+    text-decoration: underline;
+}
+
 
 /* Popup overlay */
 .popup-overlay {

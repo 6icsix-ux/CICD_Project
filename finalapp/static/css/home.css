@@ -35,7 +35,7 @@ h2 {
 
 /* ✅ ภาพห้อง */
 .room-image {
-    width: 60%;
+    width: 100%;
     max-width: 600px;
     height: auto;
     border-radius: 8px;

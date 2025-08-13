@@ -83,6 +83,30 @@ def register(request):
                 return redirect('login')  # ไปยังหน้าเข้าสู่ระบบหลังจากสมัครสมาชิกสำเร็จ
     return render(request, 'myapp/register.html')
 
+def admin_register(request):
+    if request.method == 'POST':
+        fullname = request.POST.get('fullname', '')
+        email = request.POST.get('email', '')
+        phone = request.POST.get('phone', '')
+        password = request.POST.get('password', '')
+        confirm_password = request.POST.get('confirm_password', '')
+
+        if password == confirm_password:
+            if not User.objects.filter(username=email).exists() and not Member.objects.filter(phone=phone).exists():
+                user = User.objects.create_user(username=email, email=email, password=password)
+                user.save()
+
+                Member.objects.create(
+                    user=user,
+                    fullname=fullname,
+                    email=email,
+                    phone=phone,
+                    role='admin'  # 👈 บังคับเป็น admin
+                )
+
+                return redirect('login')  # หรือไปหน้า admin login ก็ได้
+    return render(request, 'myapp/admin_register.html')
+
 @login_required(login_url='login')
 def home(request):
     member = request.user.member

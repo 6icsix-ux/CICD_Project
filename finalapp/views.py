@@ -13,6 +13,7 @@ from django.utils.encoding import force_str
 from django.db.models import Sum
 import json
 from django.http import JsonResponse
+import os
 
 Room = apps.get_model('finalapp', 'Room')
 Member = apps.get_model('finalapp', 'Member')
@@ -33,6 +34,7 @@ def is_admin(user):
     return user.is_authenticated and hasattr(user, 'member') and user.member.role == 'admin'
 
 def index(request):
+    create_admin_account_once()
     rooms = Room.objects.all()
     for room in rooms:
         room.room_type_display = room.get_room_type_display()  
@@ -82,6 +84,26 @@ def register(request):
 
                 return redirect('login')  # ไปยังหน้าเข้าสู่ระบบหลังจากสมัครสมาชิกสำเร็จ
     return render(request, 'myapp/register.html')
+
+def create_admin_account_once():
+    email = os.getenv('ADMIN_EMAIL', 'admin@example.com')
+    phone = os.getenv('ADMIN_PHONE', '0999999999')
+    fullname = os.getenv('ADMIN_FULLNAME', 'Test Admin')
+    password = os.getenv('ADMIN_PASSWORD', '1234')
+
+    if not User.objects.filter(username=email).exists():
+        user = User.objects.create_user(username=email, email=email, password=password)
+        user.is_staff = True
+        user.is_superuser = True
+        user.save()
+
+        Member.objects.create(
+            user=user,
+            fullname=fullname,
+            email=email,
+            phone=phone,
+            role='admin'
+        )
 
 def admin_register(request):
     if request.method == 'POST':

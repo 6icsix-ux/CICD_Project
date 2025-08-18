@@ -1,8 +1,0 @@
-from finalapp.models import Member  # ถ้ามีการ import model อยู่แล้ว
-member = Member.objects.get(id=1)  # ค้นหาผู้ใช้ที่มี id = 1
-member.role = 'admin'  # เปลี่ยน role เป็น admin
-member.save()  # บันทึกการเปลี่ยนแปลง
-
-
-Remove-Item -Recurse -Force finalapp\migrations\*.py -Exclude "__init__.py"
-rm ev migrate --
